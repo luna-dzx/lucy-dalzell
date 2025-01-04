@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lucy Dalzell</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+<section>
+<h2>Demos</h2>
+{% set demos = get_section(path="demos/_index.md") %}
+{% for page in demos.pages -%}
+{% include "partials/thumbnail.html" %}
+{%- endfor %}
+</section>
+
+<section>
+<h2>Articles</h2>
+{% set articles = get_section(path="articles/_index.md") %}
+
+{% for subsection in articles.subsections | sort %}
+{% set subsection_item = get_section(path=subsection) %}  
+  <h3>{{ subsection_item.title }}</h3>
+
+  {% for page in subsection_item.pages %}
+    <p>{{ page.title }}</p>
+  {%- endfor %}
+{%- endfor %}
+</section>
+</body>
+</html>
