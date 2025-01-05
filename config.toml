@@ -1,4 +1,4 @@
-base_url = "https://lucy-dalzell.com"
+base_url = "/"#"https://www.lucy-dalzell.com"
 
 compile_sass = true
 build_search_index = true
