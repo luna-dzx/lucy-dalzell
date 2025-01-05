@@ -7,6 +7,7 @@ build_search_index = true
 highlight_code = true
 
 [extra]
-thumbnail_size = 400
+thumbnail_width = 800
+thumbnail_height = 600
 thumbnail_format = "webp" # auto, jpg, png, webp
 thumbnail_quality = 90 # %

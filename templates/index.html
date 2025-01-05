@@ -1,32 +1,612 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="icon.png">
   <title>Lucy Dalzell</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    :root {
+      --bg-color-light: #ffffff;
+      --text-color-light: #000000;
+      --nav-bg-light: #f4f4f4;
+      --nav-border-light: #dddddd;
+      --home-color-light: #007bff;
+
+      --bg-color-dark: #121212;
+      --text-color-dark: #ffffff;
+      --nav-bg-dark: #1f1f1f;
+      --nav-border-dark: #333333;
+      --home-color-dark: #00bfff;
+
+      --bg-color: var(--bg-color-light);
+      --text-color: var(--text-color-light);
+      --nav-bg: var(--nav-bg-light);
+      --nav-border: var(--nav-border-light);
+      --home-color: var(--home-color-light);
+
+      --cur-nav-bg: var(--nav-bg);
+
+      --header-height: 300px;
+      --font-size: 2.8rem;
+    }
+
+    @font-face {
+      font-family: 'NerdFont';
+      src: url('./GeistMonoNerdFont-Light.otf') format('opentype'); /* Adjust path as needed */
+      font-weight: normal;
+      font-style: normal;
+    }
+
+
+    body {
+      margin: 0;
+      font-family: 'NerdFont', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      /* overflow: hidden;  Prevent default scrolling behavior */
+    }
+
+    .topnav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      color: var(--text-color);
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      height: var(--header-height);
+      font-size: 1.0rem;
+
+      border-bottom: 2px solid var(--nav-border);
+
+      transition: background-color 0.4s ease;
+      z-index: 10;
+    }
+
+    #title-side-nav {
+      font-size: 0.9em;
+    }
+
+    .spacer {
+      height: 260px;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      font-size: 1.2em;
+      margin-left: auto;
+    }
+
+    #theme-toggle-mid-char {
+      font-size: 1.5em;
+    }
+
+    .links {
+      margin-left: 20px;
+      margin-right: auto;
+    }
+
+    .content {
+      margin: 20px;
+      font-size: 1.2em;
+    }
+
+    .fade-in {
+      opacity: 1;
+      pointer-events: auto; /* Clickable when visible */
+    }
+
+    .fade-out {
+      opacity: 0;
+      pointer-events: none; /* Unclickable when transparent */
+    }
+
+    .fade-in.animated {
+      transition: opacity 1.0s ease;
+    }
+
+    .fade-out.animated {
+      transition: opacity 0.3s ease
+    }
+
+    .scroll-in {
+      left: 20px;
+    }
+
+    .scroll-out {
+      left: -300px;
+    }
+
+    .scroll-in-right {
+      margin-right: 20px;
+    }
+
+    .scroll-out-right {
+      margin-right: -200px;
+    }
+
+    .color-fade-in {
+      background-color: var(--bg-color);
+    }
+
+    .color-fade-out {
+      background-color: var(--cur-nav-bg);
+    }
+
+    a:link {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
+
+    .section {
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 1200px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1.0fr));
+        gap: 10px;
+    }
+    .grid-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #aaa;
+      background-color: #333;
+      font-size: 14px;
+      padding: 0px;
+      transition: 0.3s;
+      overflow: hidden;
+      position: relative;
+    }
+    .grid-image:hover {
+      padding: 0px;
+      border-style: none;
+    }
+
+    .grid-image img {
+      object-fit: cover;
+    }
+
+    .grid-image .img-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .grid-image:hover .img-overlay {
+      opacity: 0;
+    }
+
+    .grid-image .img-text {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: white;
+      font-size: 16px;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .grid-image:hover .img-text {
+      opacity:1;
+    }
+
+    /* for devices that don't support hovering: */
+    @media (hover:none) {
+      .grid-image .img-text {
+        opacity:1;
+      }
+      .grid-image .img-overlay {
+        opacity: 0;
+      }
+      a {
+        color: var(--text-color);
+        text-decoration: underline;
+      }
+      .grid-image {
+        padding: 0px;
+        border-style: none;
+      }
+    }
+
+    .moon-shift {
+      transform: translateX(-0.0em);
+    }
+    .sun-shift {
+      transform: translateX(-0.18em);
+    }
+
+    .nav-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .nav-left-container, 
+    .nav-right-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left-container {
+      justify-content: flex-end;
+    }
+    .nav-right-container {
+      justify-content: flex-start;
+    }
+
+    .nav-center {
+      flex: 0 0 auto;
+      padding: 10px;
+    }
+
+    .disabled {
+      display: none;
+    }
+
+  </style>
 </head>
+<body class="no-transition" onresize="resize()">
 
-<body>
-<section>
-<h2>Demos</h2>
+  <div id="page-top"></div>
+
+  <div id="topnav" class="topnav color-fade-in">
+    <div id="title-side-nav" style = "transition: left 0.4s ease;position: absolute;" class="scroll-out">
+      <a href="#">Resume</a> <b id="extra-links">|  <a style="cursor:pointer;" onclick="smoothScrollTo('demos')">Demos</a> | <a style="cursor:pointer;" onclick="smoothScrollTo('articles')">Articles</a></b>
+    </div>
+
+    <div style="position: absolute;left: 50%; transform:translate(-50%, 0%);
+        text-align: center; height:100%; width: 100%; pointer-events: none;">
+        <div style="font-size: var(--font-size);
+          position: absolute; top:50%; width:100%;
+          transform:translate(0, -50%);">
+          <a style="pointer-events: auto; cursor: pointer;" onclick="smoothScrollTo('page-top')">Lucy Dalzell</a>
+        </div>
+
+        <div id="title-nav" style="position: absolute; bottom: 10%; width: 80%;
+          left: 50%; transform:translate(-50%, 0%);" class="fade-in nav-flex">
+            <div class="nav-left-container">
+              <div class="nav-left">
+                <a href="#">Resume</a> |
+              </div>
+            </div>
+            <div class="nav-center">
+              <a style="cursor:pointer;" onclick="smoothScrollTo('demos')">Demos</a>
+            </div>
+            <div class="nav-right-container">
+              <div class="nav-right">
+                | <a style="cursor:pointer;" onclick="smoothScrollTo('articles')">Articles</a>
+              </div>
+            </div>
+        </div>
+
+        <div  style="position: absolute; bottom: 25%; width: 50px;
+          left: 50%; transform:translate(-50%, 0%);" class="fade-in" id="theme-toggle-mid" onclick="toggleTheme()">
+          <div class="theme-toggle" id="theme-toggle-mid-char"> &#127774;</div>
+        </div>
+
+    </div>
+
+    <div id="theme-toggle" class="scroll-out-right" style="transition: margin-right 0.4s ease;margin-left: auto;">
+        <div style="width:50px; text-align: center;" onclick="toggleTheme()" class="theme-toggle">
+        &#127774;
+        </div>
+      </div>
+  </div>
+  <div class="spacer"></div>
+
+
+<div class="content" style="height: 3000px;">
+
+<div id="demos" style="height:20px;"></div>
+<div class="section demos">
+    <h2>Demos</h2>
+    <div class="grid">
+
 {% set demos = get_section(path="demos/_index.md") %}
-{% for page in demos.pages -%}
-{% include "partials/thumbnail.html" %}
-{%- endfor %}
-</section>
+      {% for page in demos.pages -%}
+        <div class="grid-image">
+          {% include "partials/thumbnail.html" %}
+        </div>
+      {%- endfor %}
+    </div>
+</div>
 
-<section>
-<h2>Articles</h2>
+
+<div id="articles" style="height:20px;"></div>
+<div class="section articles">
+    <h2>Articles</h2>
+    <div class="grid">
+
 {% set articles = get_section(path="articles/_index.md") %}
 
 {% for subsection in articles.subsections | sort %}
 {% set subsection_item = get_section(path=subsection) %}  
-  <h3>{{ subsection_item.title }}</h3>
+        <div>
+          <h3>{{ subsection_item.title }}</h3>
 
-  {% for page in subsection_item.pages %}
-    <p>{{ page.title }}</p>
-  {%- endfor %}
+          {% for page in subsection_item.pages %}
+            <p> - <a href="{{ page.permalink }}">{{ page.title }}</a></p>
+          {%- endfor %}
+
+        </div>
 {%- endfor %}
-</section>
+    </div>
+</div>
+
+</div>
+
+<script>
+
+  const topnav = document.getElementById('topnav');
+  const titleSideNav = document.getElementById('title-side-nav');
+  const titleNav = document.getElementById('title-nav');
+  const themeToggleMid = document.getElementById('theme-toggle-mid');
+  const themeToggleSide = document.getElementById('theme-toggle');
+  const extraLinks = document.getElementById('extra-links');
+
+  let initialHeight = 300;
+  let finalHeight = 50;
+  let initialFontSize = 2.8; // rem
+  let finalFontSize = 1.4; // rem
+
+  let scrollThreshold = 100;
+  let themeScrollThreshold = 20;
+
+  let contentHeight = document.body.scrollHeight - window.innerHeight;
+
+  let currentScroll = 0; // Tracks the smooth scrolling position
+  let targetScroll = 0;  // Tracks the desired scroll position
+  let isAnimating = false; // Flag to indicate if animation is running
+
+  function updateTopnav() {
+    // Calculate scroll progress (between 0 and 1)
+    const scrollProgress = Math.min(currentScroll / (initialHeight - finalHeight), 1);
+
+    // Interpolated values for height and font size
+    const newHeight = initialHeight - scrollProgress * (initialHeight - finalHeight);
+    const newFontSize = initialFontSize - scrollProgress * (initialFontSize - finalFontSize);
+
+    // Update CSS variables instantly
+    document.documentElement.style.setProperty('--header-height', `${newHeight}px`);
+    document.documentElement.style.setProperty('--font-size', `${newFontSize}rem`);
+  }
+
+  function resize() {
+    const thin = window.innerWidth < 800;
+    contentHeight = document.body.scrollHeight - window.innerHeight;
+
+    const widthProgress = (800 - window.innerWidth) / 500;
+
+    if (thin) {
+      initialFontSize = 2.8 - 0.6 * widthProgress;
+      finalFontSize = 1.4 - 0.2 * widthProgress;
+
+      extraLinks.classList.add('disabled');
+
+    } else {
+      initialFontSize = 2.8;
+      finalFontSize = 1.4;
+
+      extraLinks.classList.remove('disabled');
+    }
+
+    
+    updateTopnav();
+  }
+
+  resize();
+
+  const themeToggles = document.getElementsByClassName('theme-toggle');
+  const root = document.documentElement;
+
+  var addAnimate = false;
+
+  function applyTheme(isDark) {
+
+    if (addAnimate) {
+        window.document.styleSheets[0].insertRule('body {transition: background-color 0.3s, color 0.3s;}');
+    }
+
+    if (isDark) {
+      root.style.setProperty('--bg-color', 'var(--bg-color-dark)');
+      root.style.setProperty('--text-color', 'var(--text-color-dark)');
+      root.style.setProperty('--nav-bg', 'var(--nav-bg-dark)');
+      root.style.setProperty('--nav-border', 'var(--nav-border-dark)');
+      root.style.setProperty('--home-color', 'var(--home-color-dark)');
+      for (const item of themeToggles) {
+        item.textContent = '\uf186'; // Moon symbol (circle)
+        item.classList.remove('sun-shift');
+        item.classList.add('moon-shift');
+      }
+
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.style.setProperty('--bg-color', 'var(--bg-color-light)');
+      root.style.setProperty('--text-color', 'var(--text-color-light)');
+      root.style.setProperty('--nav-bg', 'var(--nav-bg-light)');
+      root.style.setProperty('--nav-border', 'var(--nav-border-light)');
+      root.style.setProperty('--home-color', 'var(--home-color-light)');
+      for (const item of themeToggles) {
+        item.textContent = '\uf522'; // Sun symbol
+        item.classList.add('sun-shift');
+        item.classList.remove('moon-shift');
+      }
+
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+
+
+  // Load the stored theme on page load
+  let isDarkMode = localStorage.getItem('theme') !== 'light';
+  applyTheme(isDarkMode);
+  var addAnimate = true;
+
+  function toggleTheme() {
+      isDarkMode = !isDarkMode;
+      applyTheme(isDarkMode);
+  }
+
+
+
+  let limitScroll = false;
+
+  function smoothScrollStep() {
+    if (!isAnimating) return; // Exit if no animation is needed
+
+    let scrollDelta = (targetScroll - currentScroll);
+    if (limitScroll) {
+      scrollDelta *= 0.1;
+    }
+    currentScroll += scrollDelta;
+
+    // Apply the smoothed scroll position
+    window.scrollTo(0, currentScroll);
+
+    // Update the topnav size instantly
+    updateTopnav();
+
+    if (Math.abs(targetScroll - currentScroll) > 0.5) {
+      requestAnimationFrame(smoothScrollStep);
+    } else {
+      currentScroll = targetScroll; // Snap to target when close
+      isAnimating = false; // Stop the animation loop
+    }
+  }
+
+  function setScrollDownAnim (threshold) {
+
+    if (threshold == scrollThreshold) {
+      titleNav.classList.add('fade-out');
+      titleNav.classList.remove('fade-in');
+
+      topnav.classList.add('color-fade-out');
+      topnav.classList.remove('color-fade-in');
+
+      titleSideNav.classList.remove('scroll-out');
+      titleSideNav.classList.add('scroll-in');
+    } else {
+
+      themeToggleMid.classList.add('fade-out');
+      themeToggleMid.classList.remove('fade-in');
+
+      themeToggleSide.classList.remove('scroll-out-right');
+      themeToggleSide.classList.add('scroll-in-right');
+    }
+  }
+
+  function setScrollUpAnim (threshold) {
+
+    if (threshold == scrollThreshold) {
+      titleNav.classList.remove('fade-out');
+      titleNav.classList.add('fade-in');
+
+      topnav.classList.remove('color-fade-out');
+      topnav.classList.add('color-fade-in');
+
+      titleSideNav.classList.add('scroll-out');
+      titleSideNav.classList.remove('scroll-in');
+    } else {
+      themeToggleMid.classList.remove('fade-out');
+      themeToggleMid.classList.add('fade-in');
+
+      themeToggleSide.classList.add('scroll-out-right');
+      themeToggleSide.classList.remove('scroll-in-right');
+    }
+  }
+
+  let lastTargetScroll = window.scrollY;
+
+  function handleScroll(targetScroll) {
+    if (targetScroll <= scrollThreshold && lastTargetScroll > scrollThreshold) {
+      setScrollUpAnim(scrollThreshold);
+    }
+    if (targetScroll <= themeScrollThreshold && lastTargetScroll > themeScrollThreshold) {
+      setScrollUpAnim(themeScrollThreshold);
+    }
+
+    if (lastTargetScroll <= scrollThreshold && targetScroll > scrollThreshold) {
+      setScrollDownAnim(scrollThreshold);
+    }
+    if (lastTargetScroll <= themeScrollThreshold && targetScroll > themeScrollThreshold) {
+      setScrollDownAnim(themeScrollThreshold);
+    }
+
+    // Start the animation loop if not already running
+    if (!isAnimating) {
+      isAnimating = true;
+      requestAnimationFrame(smoothScrollStep);
+    }
+
+    lastTargetScroll = targetScroll;
+  }
+
+
+  // set scroll to top on refresh to avoid weird behaviour
+  handleScroll(window.scrollY);
+
+  titleNav.classList.add('animated');
+  titleSideNav.classList.add('animated');
+  themeToggleMid.classList.add('animated');
+  themeToggleSide.classList.add('animated');
+
+
+
+  window.addEventListener('scroll', (e) => {
+    if (isAnimating) return;
+    targetScroll = window.scrollY;
+
+    limitScroll = false;
+    handleScroll(targetScroll);
+  });
+
+  function smoothScrollTo(id) {
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    limitScroll = true;
+    targetScroll = section.offsetTop; // Set the targetScroll to the section's position
+
+    handleScroll(targetScroll);
+
+  }
+
+
+</script>
+
+
 </body>
 </html>
