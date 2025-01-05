@@ -4,7 +4,8 @@ description = ""
 date = 2024-11-01
 
 [extra]
-thumbnail = "4by3-template.png"
+thumbnail = "thumbnail-4:3.png"
+image = "image-16:9.png"
 +++
 
 image

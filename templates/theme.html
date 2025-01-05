@@ -1,0 +1,121 @@
+{% block theme %}
+<style>
+:root {
+  --bg-color-light: #ffffff;
+  --text-color-light: #000000;
+  --nav-bg-light: #f4f4f4;
+  --nav-border-light: #dddddd;
+  --home-color-light: #007bff;
+
+  --bg-color-dark: #121212;
+  --text-color-dark: #ffffff;
+  --nav-bg-dark: #1f1f1f;
+  --nav-border-dark: #333333;
+  --home-color-dark: #00bfff;
+
+  --bg-color: var(--bg-color-light);
+  --text-color: var(--text-color-light);
+  --nav-bg: var(--nav-bg-light);
+  --nav-border: var(--nav-border-light);
+  --home-color: var(--home-color-light);
+
+  --font-size: 1.4rem;
+}
+
+.topnav {
+  top: 0;
+  width: 100%;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  height: 50px;
+  font-size: 1.0rem;
+  border-bottom: 2px solid var(--nav-border);
+  z-index: 10;
+}
+
+
+.nav-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.nav-left-container, 
+.nav-right-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.nav-left-container {
+  justify-content: flex-end;
+}
+.nav-right-container {
+  justify-content: flex-start;
+}
+
+.nav-center {
+  flex: 0 0 auto;
+  padding: 10px;
+}
+
+body {
+  font-family: 'NerdFont', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+}
+
+@font-face {
+  font-family: 'NerdFont';
+  src: url('/GeistMonoNerdFont-Light.otf') format('opentype'); /* Adjust path as needed */
+  font-weight: normal;
+  font-style: normal;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-left: auto;
+}
+
+a:link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+a:active {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+#title-side-nav {
+  font-size: 0.9em;
+}
+
+.content {
+  margin: 20px;
+  font-size: 1.0rem;
+}
+
+.section {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+</style>
+{% endblock theme %}

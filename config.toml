@@ -1,4 +1,4 @@
-base_url = "https://lucy-dalzell.superhi.hosting/"
+base_url = "https://lucy-dalzell.com"
 
 compile_sass = true
 build_search_index = true
@@ -11,3 +11,10 @@ thumbnail_width = 800
 thumbnail_height = 600
 thumbnail_format = "webp" # auto, jpg, png, webp
 thumbnail_quality = 90 # %
+
+image_width = 1280 
+image_height = 720 
+image_format = "webp" # auto, jpg, png, webp
+image_quality = 90 # %
+
+

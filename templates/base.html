@@ -3,13 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="icon2.png">
+  <link rel="icon" type="image/x-icon" href="/icon2.png">
   <title>Lucy Dalzell</title>
+
+{% include "theme.html" %}
+
   <style>
+
+    .topnav {
+      pointer-events: none;
+      background-color: var(--nav-bg);
+    }
+
+    #title-side-nav {
+      left: 20px;
+    }
+
+    #theme-toggle {
+      margin-right: 20px;
+    }
+
   </style>
 </head>
 <body>
 
 
+<div id="topnav" class="topnav">
+  <div id="title-side-nav" style = "position: absolute; pointer-events: auto;">
+    <a href="#">Resume</a>
+  </div>
 
+  <div style="position: absolute;left: 50%; transform:translate(-50%, 0%);
+    text-align: center; height:100%; width: 100%; pointer-events: none;">
+    <div style="font-size: var(--font-size);
+      position: absolute; top:50%; width:100%;
+      transform:translate(0, -50%);">
+      <a style="pointer-events: auto; cursor: pointer;" href="/">Lucy Dalzell</a>
+    </div>
+  </div>
+
+    <div id="theme-toggle" style="transition: margin-right 0.4s ease;margin-left: auto; pointer-events: auto;">
+        <div style="width:50px; text-align: center;" onclick="toggleTheme()" class="theme-toggle">
+        &#127774;
+        </div>
+      </div>
+
+</div>
+
+<div class="content">
+{% block content %} {% endblock %}
+</div>
+
+{% include "theme-selecting.html" %}
 </body>
+</html>

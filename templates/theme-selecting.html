@@ -1,5 +1,61 @@
 {% block themeSelecting %}
 <script>
+  const themeToggles = document.getElementsByClassName('theme-toggle');
+  const root = document.documentElement;
 
+  var addAnimate = false;
+
+  function applyTheme(isDark) {
+
+    if (addAnimate) {
+        window.document.styleSheets[0].insertRule('body {transition: background-color 0.3s, color 0.3s;}');
+    }
+
+    if (isDark) {
+      root.style.setProperty('--bg-color', 'var(--bg-color-dark)');
+      root.style.setProperty('--text-color', 'var(--text-color-dark)');
+      root.style.setProperty('--nav-bg', 'var(--nav-bg-dark)');
+      root.style.setProperty('--nav-border', 'var(--nav-border-dark)');
+      root.style.setProperty('--home-color', 'var(--home-color-dark)');
+      for (const item of themeToggles) {
+        item.textContent = '\uf186'; // Moon symbol (circle)
+        item.classList.remove('sun-shift');
+        item.classList.add('moon-shift');
+      }
+
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.style.setProperty('--bg-color', 'var(--bg-color-light)');
+      root.style.setProperty('--text-color', 'var(--text-color-light)');
+      root.style.setProperty('--nav-bg', 'var(--nav-bg-light)');
+      root.style.setProperty('--nav-border', 'var(--nav-border-light)');
+      root.style.setProperty('--home-color', 'var(--home-color-light)');
+      for (const item of themeToggles) {
+        item.textContent = '\uf522'; // Sun symbol
+        item.classList.add('sun-shift');
+        item.classList.remove('moon-shift');
+      }
+
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  let isDarkMode = true;
+
+  // Load the stored theme on page load
+  if (localStorage.getItem('theme')) {
+    isDarkMode = localStorage.getItem('theme') !== 'light';
+  } else {
+    isDarkMode = (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches))
+  }
+
+  applyTheme(isDarkMode);
+
+  var addAnimate = true;
+
+  function toggleTheme() {
+      isDarkMode = !isDarkMode;
+      applyTheme(isDarkMode);
+  }
 </script>
 {% endblock themeSelecting %}

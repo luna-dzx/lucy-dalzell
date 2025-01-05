@@ -5,78 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="icon2.png">
   <title>Lucy Dalzell</title>
+
+{% include "theme.html" %}
+
   <style>
     :root {
-      --bg-color-light: #ffffff;
-      --text-color-light: #000000;
-      --nav-bg-light: #f4f4f4;
-      --nav-border-light: #dddddd;
-      --home-color-light: #007bff;
-
-      --bg-color-dark: #121212;
-      --text-color-dark: #ffffff;
-      --nav-bg-dark: #1f1f1f;
-      --nav-border-dark: #333333;
-      --home-color-dark: #00bfff;
-
-      --bg-color: var(--bg-color-light);
-      --text-color: var(--text-color-light);
-      --nav-bg: var(--nav-bg-light);
-      --nav-border: var(--nav-border-light);
-      --home-color: var(--home-color-light);
-
       --cur-nav-bg: var(--nav-bg);
-
-      --header-height: 300px;
       --font-size: 2.8rem;
     }
 
-    @font-face {
-      font-family: 'NerdFont';
-      src: url('./GeistMonoNerdFont-Light.otf') format('opentype'); /* Adjust path as needed */
-      font-weight: normal;
-      font-style: normal;
-    }
-
-
-    body {
-      margin: 0;
-      font-family: 'NerdFont', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      /* overflow: hidden;  Prevent default scrolling behavior */
-    }
-
     .topnav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      color: var(--text-color);
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      align-items: center;
-      height: var(--header-height);
-      font-size: 1.0rem;
-
-      border-bottom: 2px solid var(--nav-border);
-
+      height: var(--header-height) !important;
       transition: background-color 0.4s ease;
-      z-index: 10;
-    }
-
-    #title-side-nav {
-      font-size: 0.9em;
+      position: fixed;
     }
 
     .spacer {
       height: 260px;
-    }
-
-    .theme-toggle {
-      cursor: pointer;
-      font-size: 1.2em;
-      margin-left: auto;
     }
 
     #theme-toggle-mid-char {
@@ -89,8 +34,7 @@
     }
 
     .content {
-      margin: 20px;
-      font-size: 1.2em;
+      font-size: 1.2rem;
     }
 
     .fade-in {
@@ -133,32 +77,6 @@
 
     .color-fade-out {
       background-color: var(--cur-nav-bg);
-    }
-
-    a:link {
-      color: var(--text-color);
-      text-decoration: none;
-    }
-
-    a:visited {
-      color: var(--text-color);
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: var(--text-color);
-      text-decoration: underline;
-    }
-
-    a:active {
-      color: var(--text-color);
-      text-decoration: underline;
-    }
-
-    .section {
-        padding: 20px;
-        margin: 20px auto;
-        max-width: 1200px;
     }
 
     .grid {
@@ -242,32 +160,6 @@
     }
     .sun-shift {
       transform: translateX(-0.18em);
-    }
-
-    .nav-flex {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .nav-left-container, 
-    .nav-right-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-left-container {
-      justify-content: flex-end;
-    }
-    .nav-right-container {
-      justify-content: flex-start;
-    }
-
-    .nav-center {
-      flex: 0 0 auto;
-      padding: 10px;
     }
 
     .disabled {
@@ -366,6 +258,8 @@
 
 </div>
 
+{% include "theme-selecting.html" %}
+
 <script>
 
   const topnav = document.getElementById('topnav');
@@ -426,66 +320,6 @@
   }
 
   resize();
-
-  const themeToggles = document.getElementsByClassName('theme-toggle');
-  const root = document.documentElement;
-
-  var addAnimate = false;
-
-  function applyTheme(isDark) {
-
-    if (addAnimate) {
-        window.document.styleSheets[0].insertRule('body {transition: background-color 0.3s, color 0.3s;}');
-    }
-
-    if (isDark) {
-      root.style.setProperty('--bg-color', 'var(--bg-color-dark)');
-      root.style.setProperty('--text-color', 'var(--text-color-dark)');
-      root.style.setProperty('--nav-bg', 'var(--nav-bg-dark)');
-      root.style.setProperty('--nav-border', 'var(--nav-border-dark)');
-      root.style.setProperty('--home-color', 'var(--home-color-dark)');
-      for (const item of themeToggles) {
-        item.textContent = '\uf186'; // Moon symbol (circle)
-        item.classList.remove('sun-shift');
-        item.classList.add('moon-shift');
-      }
-
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.style.setProperty('--bg-color', 'var(--bg-color-light)');
-      root.style.setProperty('--text-color', 'var(--text-color-light)');
-      root.style.setProperty('--nav-bg', 'var(--nav-bg-light)');
-      root.style.setProperty('--nav-border', 'var(--nav-border-light)');
-      root.style.setProperty('--home-color', 'var(--home-color-light)');
-      for (const item of themeToggles) {
-        item.textContent = '\uf522'; // Sun symbol
-        item.classList.add('sun-shift');
-        item.classList.remove('moon-shift');
-      }
-
-      localStorage.setItem('theme', 'light');
-    }
-  }
-
-  let isDarkMode = true;
-
-  // Load the stored theme on page load
-  if (localStorage.getItem('theme')) {
-    isDarkMode = localStorage.getItem('theme') !== 'light';
-  } else {
-    isDarkMode = (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches))
-  }
-
-  applyTheme(isDarkMode);
-
-  var addAnimate = true;
-
-  function toggleTheme() {
-      isDarkMode = !isDarkMode;
-      applyTheme(isDarkMode);
-  }
-
-
 
   let limitScroll = false;
 

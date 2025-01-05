@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="section">
+{%- if page.extra.image %}
+    {%- set image_path = page.colocated_path ~ page.extra.image %}
+    {%- set image = resize_image(path=image_path, width=config.extra.image_width, height=config.extra.image_height, format=config.extra.image_format, quality=config.extra.image_quality, op="fill") %}
+
+    <img style="width: 100%;" src="{{ image.url }}" alt="{{ page.title }}" />
+{%- endif %}
+
+<h1 class="title">
+  {{ page.title }}
+</h1>
+<p class="subtitle"><strong>{{ page.date }}</strong></p>
+{{ page.content | safe }}
+</div>
+
+
+
+{% endblock content %}
