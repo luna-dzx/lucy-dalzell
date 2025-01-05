@@ -25,7 +25,7 @@
 
   </style>
 </head>
-<body>
+<body onresize="resize()">
 
 
 <div id="topnav" class="topnav">
@@ -36,7 +36,7 @@
   <div style="position: absolute;left: 50%; transform:translate(-50%, 0%);
     text-align: center; height:100%; width: 100%; pointer-events: none;">
     <div style="font-size: var(--font-size);
-      position: absolute; top:50%; width:100%;
+      position: absolute; top:calc(50% - 1px); width:100%;
       transform:translate(0, -50%);">
       <a style="pointer-events: auto; cursor: pointer;" href="/">Lucy Dalzell</a>
     </div>
@@ -55,5 +55,24 @@
 </div>
 
 {% include "theme-selecting.html" %}
+
+<script>
+  function resize() {
+    const thin = window.innerWidth < 800;
+    contentHeight = document.body.scrollHeight - window.innerHeight;
+
+    const widthProgress = (800 - window.innerWidth) / 500;
+
+    let fontSize = 1.4;
+
+    if (thin) {
+      fontSize = 1.4 - 0.2 * widthProgress;
+    }
+
+    document.documentElement.style.setProperty('--font-size', `${fontSize}rem`);
+  }
+
+  resize();
+</script>
 </body>
 </html>
