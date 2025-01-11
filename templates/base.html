@@ -6,6 +6,75 @@
   <link rel="icon" type="image/x-icon" href="/icon2.png">
   <title>Lucy Dalzell</title>
 
+<!-- JS for MathJax -->
+		<script>
+
+    // https://zola.discourse.group/t/maths-support-via-mathjax/1000
+
+		window.MathJax = {
+		  tex: {
+			inlineMath: [['$','$'], ['\\(','\\)']],
+			displayMath: [ ['$$','$$'], ["\\[","\\]"], ]
+		  },
+		  startup: {
+			ready: () => {
+					
+					// get pre and code elements
+					var prelist = document.getElementsByTagName("pre");
+					var codelist = document.getElementsByTagName("code");
+					// get delimiters for inline and display math
+					var inline = MathJax.config.tex.inlineMath;
+					var display = MathJax.config.tex.displayMath;
+					// start building  a RegExp for each of these math types
+					var inlineRegexList = [];
+					var displayRegexList =[];
+					for(i=0;i<inline.length;i++) {
+						// https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+						delimLEsc = inline[i][0].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+						//alert(delimLEsc);
+						delimREsc = inline[i][1].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+						inlineRegexList.push("("+delimLEsc+")((.|[\\r\\n\\t])*?)("+delimREsc+")");
+					};
+					for(i=0;i<display.length;i++) {
+						// https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+						delimLEsc = display[i][0].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+						//alert(delimLEsc);
+						delimREsc = display[i][1].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+						displayRegexList.push("("+delimLEsc+")((.|[\\r\\n\\t])*?)("+delimREsc+")");
+					};
+					inlineRegExp = new RegExp(inlineRegexList.join("|"));
+					displayRegExp = new RegExp(displayRegexList.join("|"));
+					
+					// iterate over pre elements applying RegExp
+					// iterate "backwards" as we are removing elements!
+					for (i=prelist.length; i>0; i--) {
+						if(displayRegExp.test(prelist[i-1].textContent)) {
+							var t = document.createTextNode(prelist[i-1].textContent);
+							prelist[i-1].parentNode.insertBefore(t,prelist[i-1]);
+							prelist[i-1].parentNode.removeChild(prelist[i-1]);
+						}
+					}
+					// iterate over code elements applying RegExp
+					// iterate "backwards" as we are removing elements!
+					for (i=codelist.length; i>0; i--) {
+						if(inlineRegExp.test(codelist[i-1].textContent)) {
+							var t = document.createTextNode(codelist[i-1].textContent);
+							codelist[i-1].parentNode.insertBefore(t,codelist[i-1]);
+							codelist[i-1].parentNode.removeChild(codelist[i-1]);
+						}
+					}
+			  // Now process the page in MathJax
+			  MathJax.startup.defaultReady();
+
+        document.getElementById('content').classList.remove("content-hidden");
+			}
+		  }
+		};
+		</script>
+		<script type="text/javascript" id="MathJax-script" defer
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+		</script>
+
 {% include "theme.html" %}
 
   <style>
@@ -21,6 +90,10 @@
 
     #theme-toggle {
       margin-right: 20px;
+    }
+
+    .content-hidden {
+      display: none;
     }
 
   </style>
@@ -50,7 +123,7 @@
 
 </div>
 
-<div class="content">
+<div class="content, content-hidden" id="content">
 {% block content %} {% endblock %}
 </div>
 
