@@ -17,6 +17,7 @@
     .topnav {
       height: var(--header-height) !important;
       transition: background-color 0.4s ease;
+      will-change: background-color;
       position: fixed;
     }
 
@@ -49,10 +50,12 @@
 
     .fade-in.animated {
       transition: opacity 1.0s ease;
+      will-change: opacity;
     }
 
     .fade-out.animated {
       transition: opacity 0.3s ease
+      will-change: opacity;
     }
 
     .scroll-in {
@@ -114,6 +117,7 @@
       background-color: rgba(0, 0, 0, 0.3);
       opacity: 1;
       transition: opacity 0.3s ease;
+      will-change: opacity;
     }
 
     .grid-image:hover .img-overlay {
@@ -132,6 +136,7 @@
       background-color: rgba(0, 0, 0, 0.5);
       padding: 5px 10px;
       border-radius: 5px;
+      will-change: opacity;
     }
 
     .grid-image:hover .img-text {
@@ -173,7 +178,7 @@
   <div id="page-top"></div>
 
   <div id="topnav" class="topnav color-fade-in">
-    <div id="title-side-nav" style = "transition: left 0.4s ease;position: absolute;" class="scroll-out">
+    <div id="title-side-nav" style = "transition: left 0.4s ease;position: absolute;will-change: left;" class="scroll-out">
       <a href="#">Resume</a> <b id="extra-links">|  <a style="cursor:pointer;" onclick="smoothScrollTo('demos')">Demos</a> | <a style="cursor:pointer;" onclick="smoothScrollTo('articles')">Articles</a></b>
     </div>
 
@@ -209,7 +214,7 @@
 
     </div>
 
-    <div id="theme-toggle" class="scroll-out-right" style="transition: margin-right 0.4s ease;margin-left: auto;">
+    <div id="theme-toggle" class="scroll-out-right" style="transition: margin-right 0.4s ease;margin-left: auto;will-change: margin-right;">
         <div style="width:50px; text-align: center;" onclick="toggleTheme()" class="theme-toggle">
         &#127774;
         </div>
@@ -315,6 +320,7 @@
       extraLinks.classList.remove('disabled');
     }
 
+    document.body.offsetHeight; // Trigger reflow
     
     updateTopnav();
   }
@@ -430,6 +436,10 @@
 
     limitScroll = false;
     handleScroll(targetScroll);
+  });
+
+  document.addEventListener("touchmove", function(event){
+    event.preventDefault();
   });
 
   function smoothScrollTo(id) {
