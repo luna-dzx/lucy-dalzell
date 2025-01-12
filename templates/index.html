@@ -328,6 +328,7 @@
   resize();
 
   let limitScroll = false;
+  let forceScroll = false;
 
   function smoothScrollStep() {
     if (!isAnimating) return; // Exit if no animation is needed
@@ -338,8 +339,10 @@
     }
     currentScroll += scrollDelta;
 
+    if (forceScroll) {
     // Apply the smoothed scroll position
-    window.scrollTo(0, currentScroll);
+      window.scrollTo(0, currentScroll);
+    }
 
     // Update the topnav size instantly
     updateTopnav();
@@ -349,6 +352,7 @@
     } else {
       currentScroll = targetScroll; // Snap to target when close
       isAnimating = false; // Stop the animation loop
+      forceScroll = false;
     }
   }
 
@@ -449,6 +453,7 @@
     limitScroll = true;
     targetScroll = section.offsetTop; // Set the targetScroll to the section's position
 
+    forceScroll = true;
     handleScroll(targetScroll);
 
   }
