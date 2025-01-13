@@ -491,6 +491,10 @@ The goal is to get a vector multiplied by the **identity matrix**, which will gi
 
 ### Rotating a Point
 To rotate the point $\large (x, \\, y)$ by $45^\text{o}$, giving us $\large (x', \\, y')$, we can do the following:
+
+
+<div class="math-container">
+
 $$
 \large
 \begin{align}
@@ -507,8 +511,15 @@ y'
 \circ \begin{pmatrix} x \\\\ y \end{pmatrix}
 \end{align}
 $$
+
+</div>
+
 To evaluate this, we can use the basis vectors of our rotation matrix: \
 *(remember from the first section, $x$ and $y$ are just multiples of the basis vectors)*
+
+
+<div class="math-container">
+
 $$
 \begin{align}
 \begin{pmatrix}
@@ -529,6 +540,8 @@ x
 \end{pmatrix}
 \end{align}
 $$
+
+</div>
 
 ### Rotating Multiple Points
 If we have multiple column vectors, we can multiply them using the same method.
