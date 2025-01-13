@@ -23,6 +23,7 @@
           // Now MathJax is fully initialized, attach your logic here
           MathJax.startup.promise.then(() => {
             document.getElementById('content').classList.remove("content-hidden");
+            resize();
           }).catch((err) => {
             console.error("MathJax failed:", err);
             document.getElementById('content').classList.remove("content-hidden");
@@ -37,6 +38,8 @@
 		<script type="text/javascript" id="MathJax-script" defer
 		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 		</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"></script>
 
 {% include "theme.html" %}
 
@@ -58,6 +61,11 @@
 
     .content-hidden {
       display: none;
+    }
+
+    .center-flex {
+      display: flex;
+      justify-content: center;
     }
 
   </style>
@@ -107,6 +115,36 @@
     }
 
     document.documentElement.style.setProperty('--font-size', `${fontSize}rem`);
+
+    let elems = document.getElementsByClassName("math-container");
+
+    for(const elem of elems) {
+
+
+
+      Array.from(elem.children[0].children).forEach(child => {
+
+        fontSize = child.style.fontSize;
+        child.removeAttribute("style");
+
+        let maxWidth = 0;
+        for (const childchild of child.children) {
+          const rect = childchild.getBoundingClientRect();
+
+          if (rect.width + 40 > maxWidth) {
+            maxWidth = rect.width + 40;
+          }
+        }
+
+        if (maxWidth > window.innerWidth) {
+          child.removeAttribute("style");
+          child.setAttribute("style","font-size:"+(100 * (window.innerWidth / maxWidth)) + "% !important");
+        }
+
+
+      });
+    }
+
   }
 
   resize();
