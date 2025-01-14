@@ -115,6 +115,7 @@ a:active {
 
 .section {
     padding: 20px;
+    padding-top: 0px;
     margin: 20px auto;
     max-width: 1200px;
 }
@@ -123,6 +124,60 @@ canvas {
   width: 100% !important;
   height: auto !important;
 }
+
+
+.tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tree > ul {
+  padding-left: 1.2em;
+}
+
+li > .label {
+  margin-left: -0.75em;
+  line-height: 1.5em;
+}
+
+.tree li {
+  position: relative;
+  padding-left: 1.3em;
+}
+.tree li::before {
+  content: '';
+  position: absolute;
+  top: 0.75em;
+  left: -10px;
+  width: 1em;
+  height: 1px;
+  background: #555;
+}
+.tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 1px;
+  height: 100%;
+  background: #555;
+}
+.tree li:last-child::after {
+  height: 0.75em;
+}
+.tree li:last-child ul::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  width: 1px;
+  height: 50%;
+  background: #555;
+}
+.tree .label {
+      position: relative;
+    }
 
 
 </style>

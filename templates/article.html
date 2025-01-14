@@ -2,10 +2,25 @@
 
 {% block content %}
 <div class="section">
-<h1 class="title">
-  {{ page.title }}
-</h1>
-<p class="subtitle"><strong>{{ page.date | date(format="%d-%m-%Y") }}</strong></p>
+
+
+
+<div class="tree">
+
+  <span class="label">
+  <h1 class="title" style="margin-bottom: 5px;">
+    {{ page.title }}{% include "anchor-link-partial.html" %}
+  </h1>
+  <!--  <a class="subtitle"><strong>{{ page.date | date(format="%d-%m-%Y") }}</strong></a> -->
+
+  </span>
+
+  {% include "partials/full_index_item.html" %}
+
+</div>
+
+
+
 {{ page.content | safe }}
 </div>
 {% endblock content %}

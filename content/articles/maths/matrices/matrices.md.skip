@@ -2,6 +2,20 @@
 title = "Matrices"
 description = ""
 date = 2025-01-11
+
+[extra]
+headers = [
+
+{ title = "2D Matrices", id = "2d-matrices", subheaders = [
+  { title = "Basics", id = "basics" },
+  { title = "Matrices as Transformations", id = "matrices-as-transformations" },
+  { title = "Matrix Multiplication", id = "matrix-multiplication" },
+  { title = "Further 2D Transformations", id = "further-2d-transformations" }
+]},
+
+{ title = "3D Matrices", id = "3d-matrices", subheaders = []}
+
+]
 +++
 ---
 (index here)

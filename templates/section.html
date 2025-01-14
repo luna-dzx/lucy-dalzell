@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="/icon2.png">
-    <title>Lucy Dalzell - {{ page.title }}</title>
+    <title>Lucy Dalzell - {{ section.title }}</title>
 
 <!-- JS for MathJax -->
 		<script>
@@ -68,17 +68,6 @@
       justify-content: center;
     }
 
-    html {
-      scroll-padding-top: 70px;
-      scroll-behavior: smooth;
-    }
-
-
-    .zola-anchor {
-      font-size: 75%;
-      margin-left: 5px;
-    }
-
   </style>
 </head>
 <body onresize="resize()">
@@ -107,7 +96,15 @@
 </div>
 
 <div class="content, content-hidden" id="content">
-{% block content %} {% endblock %}
+
+  <div class="section">
+    <div class="tree">
+      {% for page in section.pages -%}
+        {% include "partials/index_item.html" %}
+      {%- endfor %}
+    </div>
+  </div>
+
 </div>
 
 {% include "theme-selecting.html" %}
@@ -159,53 +156,6 @@
   }
 
   resize();
-
-  // smooth scroll to sections:
-  document.addEventListener("DOMContentLoaded", () => {
-    const hash = window.location.hash;
-    if (hash) {
-    
-    window.scrollTo(0, 0);
-
-      // Delay to let page process
-      setTimeout(() => {
-      window.scrollTo(0, 0);
-
-        const targetElement = document.querySelector(hash);
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-          history.replaceState(null, null, window.location.href.split('#')[0]);
-        }
-      }, 100);
-    }
-  });
-
-  // Prevent the default behavior when clicking a link
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function(e) {
-      e.preventDefault();
-
-      const targetId = this.getAttribute("href").slice(1);
-      const targetElement = document.getElementById(targetId);
-
-      if (targetElement) {
-        setTimeout(() => {
-          targetElement.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-          });
-        }, 100);
-      }
-    });
-  });
-
-  function copyLink(str) {
-    navigator.clipboard.writeText( window.location.href + str);
-  }
-
 </script>
 </body>
 </html>

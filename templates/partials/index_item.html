@@ -1,0 +1,22 @@
+{% block index_item %}
+
+    <span class="label" style="margin-bottom: -10px;">
+      <a href="{{ get_url(path=page.path) }}"><h1 style="margin-bottom: 5px;">{{page.title}}</h1></a>
+    </span>
+
+    <ul>
+
+    {%- if page.extra.headers %}
+        {% for header in page.extra.headers %}
+            <li>
+              <span class="label">
+                <a href="{{ get_url(path=page.path) }}#{{ header.id }}">{{ header.title }}</a>
+              </span>
+            </li>
+        {% endfor %}
+
+    {%- endif %}
+
+    </ul>
+
+{% endblock index_item %}

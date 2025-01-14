@@ -29,6 +29,10 @@
       font-size: 1.5em;
     }
 
+    .section {
+      padding-top: 20px;
+    }
+
     .links {
       margin-left: 20px;
       margin-right: auto;
@@ -247,13 +251,15 @@
 
 {% set articles = get_section(path="articles/_index.md") %}
 
-{% for subsection in articles.subsections | sort %}
-{% set subsection_item = get_section(path=subsection) %}  
+{% for section in articles.subsections | sort %}
+{% set section_item = get_section(path=section) %}  
         <div>
-          <h3>{{ subsection_item.title }}</h3>
+          <h3>{{ section_item.title }}</h3>
 
-          {% for page in subsection_item.pages %}
-            <p> - <a href="{{ page.permalink }}">{{ page.title }}</a></p>
+          {% for subsection in section_item.subsections | sort %}
+          {% set subsection_item = get_section(path=subsection) %}
+
+            <p> - <a href="{{ subsection_item.permalink }}">{{ subsection_item.title }}</a></p>
           {%- endfor %}
 
         </div>
