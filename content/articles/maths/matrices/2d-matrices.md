@@ -19,7 +19,7 @@ headers = [
     { title = "Rotation", id = "rotation" },
     { title = "Translation", id = "translation" },
   ]},
-  { title = "Next", id = "next" }
+  { title = "Next", id = "next", optional = "yes"}
 ]
 +++
 

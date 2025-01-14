@@ -79,6 +79,38 @@
       margin-left: 5px;
     }
 
+    #scroll-to-top {
+      position: fixed;
+      top: 80px;
+      right: 37px;
+      background-color: transparent;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 1000;
+      width: 40px;
+      height: 40px;
+      overflow: visible;
+      display: inline-block;
+    }
+
+    #scroll-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .arrow {
+      font-size: 30px;
+      color: white;
+      position: absolute;
+      top: -10px;
+      z-index: 20;
+    }
+
   </style>
 </head>
 <body onresize="resize()">
@@ -105,6 +137,12 @@
       </div>
 
 </div>
+
+<a id="page-top"></a>
+
+<button id="scroll-to-top" onclick="scrollTop()">
+  <span class="arrow">↑</span>
+</button>
 
 <div class="content, content-hidden" id="content">
 {% block content %} {% endblock %}
@@ -205,6 +243,24 @@
   function copyLink(str) {
     navigator.clipboard.writeText( window.location.href + str);
   }
+
+  const scrollToTopButton = document.getElementById('scroll-to-top');
+
+  window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+          scrollToTopButton.classList.add('show');
+      } else {
+          scrollToTopButton.classList.remove('show');
+      }
+  });
+
+  const pageTop = document.getElementById('page-top');
+
+  scrollToTopButton.addEventListener('click', () => {
+      pageTop.scrollIntoView({ behavior: 'smooth' });
+  });
+
+
 
 </script>
 </body>
