@@ -1,0 +1,63 @@
++++
+title = "2D Signed Distance Functions"
+date = 2025-01-14
+description = ""
+weight = 1
+
+[extra]
+headers = [
+  { title = "Circles", id = "circles" },
+  { title = "Rectangles", id = "rectangles" },
+]
++++
+
+---
+
+# Circles
+If we have position $c$ at the centre of a circle, and position $p$
+
+<script>
+
+function makeLineDraggable(evt) {
+  const line = document.getElementById("line");
+  let x2 = 80;
+  let y2 = 40;
+
+  var svg = evt.target;
+  svg.addEventListener('mousemove', setLinePoints);
+  svg.addEventListener('touchmove', setLinePoints);
+
+  function setLinePoints(evt) {
+
+    if (evt.target.classList.contains('draggable')) {
+
+      point = evt.target;
+
+      var transforms = point.transform.baseVal;
+      if (transforms.length !== 0 && transforms.getItem(0).type === SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+
+
+        let x = point.transform.baseVal.getItem(0).matrix.e;
+        let y = point.transform.baseVal.getItem(0).matrix.f;
+        
+        line.setAttribute("x2", x2+x);
+        line.setAttribute("y2", y2+y);
+      }
+    }
+  }
+}
+
+
+</script>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" onload="makeDraggable(evt);makeLineDraggable(evt)" style="border: 1px solid var(--text-color);">
+  <circle id="circle" cx="60" cy="40" r="20" stroke="var(--text-color)" stroke-width="1" fill="transparent"></circle>
+  <circle id="point" cx="80" cy="40" r="2" fill="var(--text-color)" class="draggable"></circle>
+  <line id="line" x1="60" y1="40" x2="80" y2="40" stroke="var(--text-color)" stroke-width="1"></line>
+Your browser doesn't support inline svg :(
+
+</svg>
+
+
+# Rectangles
+Rectangle

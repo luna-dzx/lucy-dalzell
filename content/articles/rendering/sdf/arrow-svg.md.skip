@@ -1,0 +1,115 @@
+
+
+<div class="center-flex">
+  <svg id="dot-product-svg" width="300" height="300" style="border: 1px var(--text-color) solid"
+  viewBox="-150 -150 300 300">
+    <defs>
+      <marker id="arrow-head" orient="auto" markerWidth="3" markerHeight="4" refX="0.1" refy="2">
+        <path d='M0,0 V4 L2,2 Z' fill="var(--text-color)"></path>
+      </marker>
+    </defs>
+  </svg>
+</div>
+
+<script>
+
+function clamp(x, min, max) {
+  return Math.max(Math.min(max, x), min);
+}
+
+{
+  const svg = d3.select('#dot-product-svg');
+
+  // origin
+  svg.append('circle')
+      .attr('cx', 0)
+      .attr('cy', 70)
+      .attr('r', 4)
+      .attr('fill', 'var(--text-color)');
+
+  svg.append('text')
+    .attr('x', 0)
+    .attr('y', 88)
+    .attr('fill', 'var(--text-color)')
+    .text("origin")
+    .attr('dominant-baseline', 'middle')
+    .attr('text-anchor', 'middle')
+    .style('user-select','none');
+
+  // c
+  svg.append('circle')
+      .attr('cx', 0)
+      .attr('cy', -20)
+      .attr('r', 4)
+      .attr('fill', 'var(--text-color)');
+
+  svg.append('text')
+    .attr('x', 0)
+    .attr('y', -38)
+    .attr('fill', 'var(--text-color)')
+    .text("c")
+    .attr('dominant-baseline', 'middle')
+    .attr('text-anchor', 'middle')
+    .style('user-select','none');
+
+  let x1 = 0;
+  let y1 = -20;
+
+  let x2 = 40;
+  let y2 = 20;
+
+  let ax = x2-x1;
+  let ay = y2-y1;
+  let len = Math.max(0.0001, Math.sqrt(ax*ax + ay*ay));
+  ax *= (len-12)/len;
+  ay *= (len-12)/len;
+  ax += x1;
+  ay += y1;
+
+  let arrow = svg.append('path')
+    .attr('marker-end','url(#arrow-head)')
+    .attr('stroke-width', 3)
+    .attr('fill', 'none')
+    .attr('stroke', 'var(--text-color)')
+    .attr('d', 'M0, '+y1+','+(ax-x1)+' '+(ay)+',0');
+
+  let point = svg.append('circle')
+      .attr('cx', x2)
+      .attr('cy', y2)
+      .attr('r', 6)
+      .attr('fill', 'blue');
+
+  let pText = svg.append('text')
+    .attr('x', x2 + 10)
+    .attr('y', y2 + 10)
+    .attr('fill', 'var(--text-color)')
+    .text("p")
+    .style('user-select','none');
+
+  point.call(d3.drag()
+    .on('start', function(event) {
+      event.sourceEvent.preventDefault();
+    })
+    .on('drag', function(event) {
+
+    x2 = clamp(event.x, -150 + 10, 150 - 10);
+    y2 = clamp(event.y, -150 + 10, 150 - 10);
+
+    point.attr('cx', x2)
+        .attr('cy', y2);
+
+    ax = x2-x1;
+    ay = y2-y1;
+    len = Math.max(0.0001, Math.sqrt(ax*ax + ay*ay));
+    ax *= (len-12)/len;
+    ay *= (len-12)/len;
+    ax += x1;
+    ay += y1;
+
+    arrow.attr('d', 'M0, '+y1+','+(ax-x1)+' '+(ay)+',0');
+    pText.attr('x', x2 + 10).attr('y', y2 + 10);
+
+  }));
+
+}
+</script>

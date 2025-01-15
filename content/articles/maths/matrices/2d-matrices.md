@@ -24,6 +24,8 @@ headers = [
 ]
 +++
 
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"></script>
+
 ---
 
 # Basics

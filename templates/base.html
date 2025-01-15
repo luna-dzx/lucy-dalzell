@@ -39,7 +39,6 @@
 		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 		</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"></script>
 
 {% include "theme.html" %}
 
@@ -109,6 +108,11 @@
       position: absolute;
       top: -10px;
       z-index: 20;
+    }
+
+    .draggable {
+      cursor: move;
+      
     }
 
   </style>
@@ -202,43 +206,10 @@
   document.addEventListener("DOMContentLoaded", () => {
     const hash = window.location.hash;
     if (hash) {
-    
-    window.scrollTo(0, 0);
-
-      // Delay to let page process
-      setTimeout(() => {
-      window.scrollTo(0, 0);
-
-        const targetElement = document.querySelector(hash);
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-          history.replaceState(null, null, window.location.href.split('#')[0]);
-        }
-      }, 100);
+      history.replaceState(null, null, window.location.href.split('#')[0]);
     }
   });
 
-  // Prevent the default behavior when clicking a link
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function(e) {
-      e.preventDefault();
-
-      const targetId = this.getAttribute("href").slice(1);
-      const targetElement = document.getElementById(targetId);
-
-      if (targetElement) {
-        setTimeout(() => {
-          targetElement.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-          });
-        }, 100);
-      }
-    });
-  });
 
   function copyLink(str) {
     navigator.clipboard.writeText( window.location.href + str);
@@ -260,6 +231,74 @@
       pageTop.scrollIntoView({ behavior: 'smooth' });
   });
 
+
+  // https://www.petercollingridge.co.uk/tutorials/svg/interactive/dragging/
+  function getMousePosition(evt) {
+    var CTM = svg.getScreenCTM();
+    if (evt.touches) { evt = evt.touches[0]; }
+    return {
+      x: (evt.clientX - CTM.e) / CTM.a,
+      y: (evt.clientY - CTM.f) / CTM.d
+    };
+  }
+
+
+  function makeDraggable(evt) {
+
+    document.dispatchEvent(new Event("makeDraggableEvent", {detail: evt}))
+
+    var svg = evt.target;
+    svg.addEventListener('mousedown', startDrag);
+    svg.addEventListener('mousemove', drag);
+    svg.addEventListener('mouseup', endDrag);
+    svg.addEventListener('mouseleave', endDrag);
+
+    svg.addEventListener('touchstart', startDrag);
+    svg.addEventListener('touchmove', drag);
+    svg.addEventListener('touchend', endDrag);
+    svg.addEventListener('touchleave', endDrag);
+    svg.addEventListener('touchcancel', endDrag);
+
+    var selectedElement, offset;
+
+    function startDrag(evt) {
+
+      if (evt.target.classList.contains('draggable')) {
+        selectedElement = evt.target;
+        offset = getMousePosition(evt);
+        // Get all the transforms currently on this element
+        var transforms = selectedElement.transform.baseVal;
+        // Ensure the first transform is a translate transform
+        if (transforms.length === 0 ||
+            transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+          // Create an transform that translates by (0, 0)
+          var translate = svg.createSVGTransform();
+          translate.setTranslate(0, 0);
+          // Add the translation to the front of the transforms list
+          selectedElement.transform.baseVal.insertItemBefore(translate, 0);
+        }
+        // Get initial translation amount
+        transform = transforms.getItem(0);
+        offset.x -= transform.matrix.e;
+        offset.y -= transform.matrix.f;
+      }
+
+    }
+
+    function drag(evt) {
+
+      if (selectedElement) {
+        evt.preventDefault();
+        var coord = getMousePosition(evt);
+        transform.setTranslate(coord.x - offset.x, coord.y - offset.y);
+      }
+
+    }
+
+    function endDrag(evt) {
+      selectedElement = null;
+    }
+  }
 
 
 </script>
