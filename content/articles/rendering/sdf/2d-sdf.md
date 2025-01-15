@@ -6,11 +6,15 @@ weight = 1
 
 [extra]
 headers = [
-  { title = "Circles", id = "circles" }
+  { title = "Circles", id = "circles" },
+  { title = "Rectangles", id = "rectangles" },
 ]
 +++
 
 ---
 
 # Circles
-I like circles
+Circle
+
+# Rectangles
+Rectangle

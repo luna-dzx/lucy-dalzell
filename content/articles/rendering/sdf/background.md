@@ -13,7 +13,7 @@ A negative distance value means that this position is inside the shape.
 Ideally, the magnitude of this value should be exactly the **minimum distance** that you would have to move from the input position to get to the edge of the object irrespective of direction.
 
 <div class="center-flex">
-  <img src="./signed-distance.png" style="width:300px;"></img>
+  <img src="/images/signed-distance.png" style="width:300px;"></img>
 </div>
 
 $$
