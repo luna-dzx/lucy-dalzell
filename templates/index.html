@@ -40,6 +40,7 @@
 
     .content {
       font-size: 1.2rem;
+      line-height: 0.7em;
     }
 
     .fade-in {
@@ -251,12 +252,12 @@
 
 {% set articles = get_section(path="articles/_index.md") %}
 
-{% for section in articles.subsections | sort %}
+{% for section in articles.subsections %}
 {% set section_item = get_section(path=section) %}  
         <div>
           <h3>{{ section_item.title }}</h3>
 
-          {% for subsection in section_item.subsections | sort %}
+          {% for subsection in section_item.subsections %}
           {% set subsection_item = get_section(path=subsection) %}
 
             <p> - <a href="{{ subsection_item.permalink }}">{{ subsection_item.title }}</a></p>
@@ -403,7 +404,16 @@
     }
   }
 
-  let lastTargetScroll = window.scrollY;
+  // set scroll to top on refresh to avoid weird behaviour
+
+  let lastTargetScroll = 0;
+  isAnimating = false;
+  smoothScrollTo(window.scrollY);
+  
+  titleNav.classList.add('animated');
+  titleSideNav.classList.add('animated');
+  themeToggleMid.classList.add('animated');
+  themeToggleSide.classList.add('animated');
 
   function handleScroll(targetScroll) {
     if (targetScroll <= scrollThreshold && lastTargetScroll > scrollThreshold) {
@@ -428,16 +438,6 @@
 
     lastTargetScroll = targetScroll;
   }
-
-
-  // set scroll to top on refresh to avoid weird behaviour
-  handleScroll(window.scrollY);
-
-  titleNav.classList.add('animated');
-  titleSideNav.classList.add('animated');
-  themeToggleMid.classList.add('animated');
-  themeToggleSide.classList.add('animated');
-
 
 
   window.addEventListener('scroll', (e) => {
